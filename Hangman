@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class HangmanGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] words = {"apple", "banana", "cherry", "orange", "grape"};
+        String randomWord = words[(int) (Math.random() * words.length)];
+        char[] guessedWord = new char[randomWord.length()];
+        int attempts = 6;
+        boolean gameOver = false;
+
+        // Initialize guessedWord with underscores
+        for (int i = 0; i < randomWord.length(); i++) {
+            guessedWord[i] = '_';
+        }
+
+        System.out.println("Welcome to Hangman!");
+        
+        while (!gameOver) {
+            System.out.println("Word: " + String.valueOf(guessedWord));
+            System.out.println("Attempts left: " + attempts);
+            
+            System.out.print("Guess a letter: ");
+            char guess = scanner.next().charAt(0);
+            boolean guessedCorrectly = false;
+            
+            for (int i = 0; i < randomWord.length(); i++) {
+                if (randomWord.charAt(i) == guess) {
+                    guessedWord[i] = guess;
+                    guessedCorrectly = true;
+                }
+            }
+            
+            if (!guessedCorrectly) {
+                attempts--;
+            }
+            
+            if (attempts == 0) {
+                System.out.println("You're out of attempts! The word was: " + randomWord);
+                gameOver = true;
+            }
+            
+            if (String.valueOf(guessedWord).equals(randomWord)) {
+                System.out.println("Congratulations! You've guessed the word: " + randomWord);
+                gameOver = true;
+            }
+        }
+        
+        scanner.close();
+    }
+}
